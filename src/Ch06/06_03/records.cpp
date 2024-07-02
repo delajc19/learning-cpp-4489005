@@ -1,5 +1,7 @@
 #include "records.h"
 #include <iostream>
+#include <iomanip>
+#include <fstream>
 
 Student::Student(int the_id, std::string the_name){
     id = the_id;
@@ -106,14 +108,25 @@ std::string StudentRecords::get_course_name(int cid) const{
 }
 
 void StudentRecords::report_card(int sid){
-    float points = 0.0f, credits = 0.0f;
-    std::cout << std::endl << "Report Card for " << get_student_name(sid) << std::endl;
-    for (Grade& grd : grades)
-        if (grd.get_student_id() == sid){
-            std::cout << get_course_name(grd.get_course_id()) << ": " << grd.get_grade() << std::endl;
-            unsigned char current_credits = get_course_credits(grd.get_course_id());
-            credits += current_credits;
-            points += get_num_grade(grd.get_grade()) * current_credits;
-        }
-    std::cout << "GPA: " << (points / credits) << std::endl;
+    std::ofstream outFile;
+    outFile.open("report card.txt");
+
+    std::string courseName;
+    
+    outFile << "\n" << "Name: " << students[sid-1].get_name() << std::endl;
+    outFile << "-----------------------------------------" << std::endl;
+    for(const Grade& grd : grades){
+        if(grd.get_student_id()==sid){
+            courseName = courses[grd.get_course_id()-1].get_name();
+            outFile << courseName << std::setw(15-courseName.size()) << grd.get_grade() << std::endl;
+        } 
+        
+    }
+    outFile << "-----------------------------------------" << std::endl;
+
+    outFile << "GPA:  " << get_GPA(sid) << std::endl;
+
+    outFile.close();
+
 }
+

@@ -10,3 +10,6 @@ English
 4
 Economics
 4
+5
+Chemistry
+5

@@ -3,6 +3,7 @@
 // Upgrade to work with files, by Eduardo Corpeño 
 
 #include <iostream>
+#include <fstream>
 #include <vector>
 #include "records.h"
 
@@ -24,18 +25,59 @@ int main(){
 }
 
 void initialize(StudentRecords& srec){
-    srec.add_student(1, "George P. Burdell");
-    srec.add_student(2, "Nancy Rhodes");
+    
+    std::ifstream inFile;
+    std::string buff;
+    //read from students file
+    inFile.open("students.txt");
+    if(inFile.fail()){std::cerr<<"FAILED TO OPEN FILE"<<std::endl;}
+    while(!inFile.eof()){
+        std::string name;
+        int id;
+        getline(inFile, buff);
+        id = stoi(buff);
+        getline(inFile,buff);
+        name = buff;
+        srec.add_student(id,name);      
+    }
+    inFile.close();
 
-    srec.add_course(1, "Algebra", 5);
-    srec.add_course(2, "Physics", 4);
-    srec.add_course(3, "English", 3);
-    srec.add_course(4, "Economics", 4);
+    //read from courses file
+    inFile.open("courses.txt");
+    if(inFile.fail()){std::cerr<<"FAILED TO OPEN FILE"<<std::endl;}
 
-    srec.add_grade(1, 1, 'B');
-    srec.add_grade(1, 2, 'A');
-    srec.add_grade(1, 3, 'C');
-    srec.add_grade(2, 1, 'A'); 
-    srec.add_grade(2, 2, 'A');
-    srec.add_grade(2, 4, 'B');
+    while(!inFile.eof()){
+        int id;
+        std::string name;
+        unsigned char credits;
+        getline(inFile, buff);
+        id = stoi(buff);
+        getline(inFile,buff);
+        name = buff;
+        getline(inFile,buff);
+        credits = (unsigned char)stoi(buff);
+        srec.add_course(id,name,credits);
+    }
+    
+    inFile.close();
+
+    //read from grades file
+    inFile.open("grades.txt");
+    if(inFile.fail()){std::cerr<<"FAILED TO OPEN FILE"<<std::endl;}
+
+    while(!inFile.eof()){
+        int sid;
+        int cid;
+        char grade;
+        getline(inFile,buff);
+        sid = stoi(buff);
+        getline(inFile,buff);
+        cid = stoi(buff);
+        getline(inFile,buff);
+        grade = buff[0];
+        
+        srec.add_grade(sid,cid,grade);
+    }
+
+    inFile.close();
 }

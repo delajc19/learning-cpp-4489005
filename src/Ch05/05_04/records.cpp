@@ -54,6 +54,24 @@ void StudentRecords::add_grade(int sid, int cid, char grade){
     grades.push_back(Grade(sid, cid, grade));
 }
 
+void StudentRecords::report_card(int sid){
+    std::string courseName;
+    
+    std::cout << "\n" << students[sid-1].get_name() << std::endl;
+    std::cout << "-----------------------------------------" << std::endl;
+    for(const Grade& grd : grades){
+        if(grd.get_student_id()==sid){
+            courseName = courses[grd.get_course_id()-1].get_name();
+            std::cout << courseName << std::setw(15-courseName.size()) << grd.get_grade() << std::endl;
+        } 
+        
+    }
+    std::cout << "-----------------------------------------" << std::endl;
+
+    std::cout << "GPA:  " << get_GPA(sid) << std::endl;
+
+}
+
 float StudentRecords::get_num_grade(char letter) const{
     float num_grd;          // float for the numeric grade
     switch (letter){

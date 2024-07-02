@@ -2,6 +2,8 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
+#include <iomanip>
 
 class Student{
 private:
@@ -52,6 +54,7 @@ public:
     void add_student(int, std::string);
     void add_course(int, std::string, unsigned char);
     void add_grade(int, int, char);
+    void report_card(int);
 
     std::string get_student_name(int) const;
     unsigned char get_course_credits(int) const;

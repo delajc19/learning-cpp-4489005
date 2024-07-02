@@ -6,7 +6,7 @@
 #include <vector>
 #include "records.h"
 
-#define DEBUGGING
+// #define DEBUGGING
 
 int main(){
     float GPA = 0.0f;
